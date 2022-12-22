@@ -1,6 +1,11 @@
-'''This code calculates the cost of sending a parcel'''
+"""This code calculates the cost of sending a parcel"""
 
-distance = int(input("Please can you enter the total distance of the delivery in kms? "))
+
+package_price = input("Please can you enter the total cost of the package? (in R) ")
+if "£" in package_price:
+    package_price = float(package_price.strip("£"))
+
+distance = float(input("Please can you enter the total distance of the delivery in kms? "))
 
 #  ask user if they would like air or freight?
 air_freight = input("Would you like air or freight delivery method? ").lower()
@@ -43,6 +48,6 @@ else:
     print("error, run code again")
 
 #  sum them up
-total_cost = distance*cost_per_km + insurance_cost + gift_cost + shipping_cost
+total_cost = package_price + distance*cost_per_km + insurance_cost + gift_cost + shipping_cost
 
-print(f"Calc is {distance}*{cost_per_km} + {insurance_cost} + {gift_cost} + {shipping_cost} = R{total_cost}")
+print(f"Calc is {package_price} + {distance}*{cost_per_km} + {insurance_cost} + {gift_cost} + {shipping_cost} = R{total_cost}")
