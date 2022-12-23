@@ -2,8 +2,8 @@
 
 
 package_price = input("Please can you enter the total cost of the package? (in R) ")
-if "£" in package_price:
-    package_price = float(package_price.strip("£"))
+if "R" in package_price:
+    package_price = float(package_price.strip("R"))
 
 distance = float(input("Please can you enter the total distance of the delivery in kms? "))
 
@@ -48,6 +48,7 @@ else:
     print("error, run code again")
 
 #  sum them up
-total_cost = package_price + distance*cost_per_km + insurance_cost + gift_cost + shipping_cost
+total_cost = float(package_price) + distance*cost_per_km + insurance_cost + gift_cost + shipping_cost
+
 
 print(f"Calc is {package_price} + {distance}*{cost_per_km} + {insurance_cost} + {gift_cost} + {shipping_cost} = R{total_cost}")
