@@ -10,3 +10,5 @@ for student in range(no_students):
 with open("reg_form.text", "w+") as f:
     for stud_id in student_id_list:
         f.write("Student ID: " + str(stud_id) + "\n")
+
+    f.write("Sign here: ...................................")
