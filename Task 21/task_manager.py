@@ -1,6 +1,16 @@
 # =====importing libraries===========
 '''This is the section where you will import libraries'''
 
+
+with open("test.txt", "r") as f:
+    data = f.readlines()
+
+for pos, line in enumerate(data, 1):
+    output = f"{pos} ---- {line}"
+    print(output)
+
+
+
 # ====Login Section====
 '''Here you will write code that will allow a user to login.
     - Your code must read usernames and password from the user.txt file
