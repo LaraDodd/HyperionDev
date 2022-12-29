@@ -2,11 +2,19 @@
 '''This is the section where you will import libraries'''
 
 
-with open("test.txt", "r") as f:
+with open("tasks.txt", "r") as f:
     data = f.readlines()
 
 for pos, line in enumerate(data, 1):
-    output = f"{pos} ---- {line}"
+    split_data = line.split(", ")
+    output = f"------------{pos}------------\n"
+    output += f"Username: {split_data[0]}\n"
+    output += f"Task title: {split_data[1]}\n"
+    output += f"Task description: {split_data[2]}\n"
+    output += f"Date assigned: {split_data[3]}\n"
+    output += f"Date due: {split_data[4]}\n"
+    output += f"Task complete? {split_data[5]}\n"
+    output += f"-------------------------\n"
     print(output)
 
 
