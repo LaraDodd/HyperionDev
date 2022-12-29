@@ -1,27 +1,7 @@
 # =====importing libraries===========
 from datetime import date
 
-with open("tasks.txt", "r") as f:
-    data = f.readlines()
-
-for pos, line in enumerate(data, 1):
-    split_data = line.split(", ")
-    output = f"------------{pos}------------\n"
-    output += f"Username: {split_data[0]}\n"
-    output += f"Task title: {split_data[1]}\n"
-    output += f"Task description: {split_data[2]}\n"
-    output += f"Date assigned: {split_data[3]}\n"
-    output += f"Date due: {split_data[4]}\n"
-    output += f"Task complete? {split_data[5]}\n"
-    output += f"-------------------------\n"
-    print(output)
-
 # ====Login Section====
-'''Here you will write code that will allow a user to login.
-    - Your code must read usernames and password from the user.txt file
-    - You can use a list or dictionary to store a list of usernames and passwords from the file.
-    - Use a while loop to validate your user name and password.
-'''
 
 # read all data in user.txt
 with open("user.txt", "r") as f:
@@ -44,7 +24,7 @@ for line in user_data:
 # }
 credentials_not_entered = True
 
-#ask user to enter username and password
+# ask user to enter username and password
 while credentials_not_entered:
     inputted_username = input("Please enter your username: ")
     inputted_password = input("Please enter your password: ")
@@ -63,6 +43,8 @@ while credentials_not_entered:
         if inputted_username == usernames[i] and inputted_password == passwords[i]:
             print("please wait while we log you in!!")
             credentials_not_entered = False
+
+# ========choose option section ==========
 
 while True:
     # presenting the menu to the user and
@@ -93,7 +75,6 @@ e - Exit
             else:
                 print("Sorry the password you entered does not match the first, please try again")
 
-
     elif menu == 'a':
         '''contains code that will allow a user to add a new task to task.txt file'''
         task_to_add = True
@@ -106,7 +87,7 @@ e - Exit
             today_date = date.today().strftime("%b-%d-%Y")
             task_complete = "No"
 
-            output = f"{inputted_task_assignee}, {inputted_task_title}, {inputted_description}," \
+            output = f"{inputted_task_assignee}, {inputted_task_title}, {inputted_description}, " \
                      f"{inputted_due_date}, {today_date}, {task_complete}"
 
             with open("tasks.txt", "a") as f:
@@ -116,28 +97,43 @@ e - Exit
             if more_tasks == "n":
                 task_to_add = False
 
-#
-#     elif menu == 'va':
-#         pass
-#         '''In this block you will put code so that the program will read the task from task.txt file and
-#          print to the console in the format of Output 2 in the task PDF(i.e. include spacing and labelling)
-#          You can do it in this way:
-#             - Read a line from the file.
-#             - Split that line where there is comma and space.
-#             - Then print the results in the format shown in the Output 2
-#             - It is much easier to read a file using a for loop.'''
-#
-#     elif menu == 'vm':
-#         pass
-#         '''In this block you will put code the that will read the task from task.txt file and
-#          print to the console in the format of Output 2 in the task PDF(i.e. include spacing and labelling)
-#          You can do it in this way:
-#             - Read a line from the file
-#             - Split the line where there is comma and space.
-#             - Check if the username of the person logged in is the same as the username you have
-#             read from the file.
-#             - If they are the same print it in the format of Output 2 in the task PDF'''
-#
+    elif menu == 'va':
+        '''this will read the task from task.txt file and
+         print to the console in the format of Output 2 in the task PDF(i.e. include spacing and labelling)'''
+        with open("tasks.txt", "r") as f:
+            data = f.readlines()
+
+        for pos, line in enumerate(data, 1):
+            split_data = line.split(", ")
+            output = f"------------{pos}------------\n"
+            output += f"Username: {split_data[0]}\n"
+            output += f"Task title: {split_data[1]}\n"
+            output += f"Task description: {split_data[2]}\n"
+            output += f"Date assigned: {split_data[3]}\n"
+            output += f"Date due: {split_data[4]}\n"
+            output += f"Task complete? {split_data[5]}\n"
+            output += f"-------------------------\n"
+            print(output)
+
+    elif menu == 'vm':
+
+        with open("tasks.txt", "r") as f:
+            data = f.readlines()
+
+        for pos, line in enumerate(data, 1):
+            split_data = line.split(", ")
+
+            if split_data[0] == inputted_username:
+                output = f"------------{pos}------------\n"
+                output += f"Username: {split_data[0]}\n"
+                output += f"Task title: {split_data[1]}\n"
+                output += f"Task description: {split_data[2]}\n"
+                output += f"Date assigned: {split_data[3]}\n"
+                output += f"Date due: {split_data[4]}\n"
+                output += f"Task complete? {split_data[5]}\n"
+                output += f"-------------------------\n"
+                print(output)
+
     elif menu == 'e':
         print('Goodbye!!!')
         exit()
