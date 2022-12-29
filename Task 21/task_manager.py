@@ -1,5 +1,5 @@
 # =====importing libraries===========
-'''This is the section where you will import libraries'''
+from datetime import date
 
 with open("tasks.txt", "r") as f:
     data = f.readlines()
@@ -87,32 +87,35 @@ e - Exit
 
             if check_password == inputted_new_password:
                 with open("user.txt", "a") as f:
-                    f.write(f"\n {inputted_new_username}, {inputted_new_password}")
+                    f.write(f"\n{inputted_new_username}, {inputted_new_password}")
                 passwords_match = True
 
             else:
                 print("Sorry the password you entered does not match the first, please try again")
 
-        '''- You can follow the following steps:
-            - Request input of a new username
-            - Request input of a new password
-            - Request input of password confirmation.
-            - Check if the new password and confirmed password are the same.
-            - If they are the same, add them to the user.txt file,
-            - Otherwise you present a relevant message.'''
 
-#     elif menu == 'a':
-#         pass
-#         '''In this block you will put code that will allow a user to add a new task to task.txt file
-#         - You can follow these steps:
-#             - Prompt a user for the following:
-#                 - A username of the person whom the task is assigned to,
-#                 - A title of a task,
-#                 - A description of the task and
-#                 - the due date of the task.
-#             - Then get the current date.
-#             - Add the data to the file task.txt and
-#             - You must remember to include the 'No' to indicate if the task is complete.'''
+    elif menu == 'a':
+        '''contains code that will allow a user to add a new task to task.txt file'''
+        task_to_add = True
+
+        while task_to_add:
+            inputted_task_assignee = input("Please enter username of the person whom the task is assigned to: ")
+            inputted_task_title = input("Please enter title of the task: ")
+            inputted_description = input("Please enter description of the task: ")
+            inputted_due_date = input("Please enter due date of task: ")
+            today_date = date.today().strftime("%b-%d-%Y")
+            task_complete = "No"
+
+            output = f"{inputted_task_assignee}, {inputted_task_title}, {inputted_description}," \
+                     f"{inputted_due_date}, {today_date}, {task_complete}"
+
+            with open("tasks.txt", "a") as f:
+                f.write(f"\n{output}")
+
+            more_tasks = input("Would you like to add another task? y or n? ")
+            if more_tasks == "n":
+                task_to_add = False
+
 #
 #     elif menu == 'va':
 #         pass
@@ -135,9 +138,9 @@ e - Exit
 #             read from the file.
 #             - If they are the same print it in the format of Output 2 in the task PDF'''
 #
-#     elif menu == 'e':
-#         print('Goodbye!!!')
-#         exit()
-#
-#     else:
-#         print("You have made a wrong choice, Please Try again")
+    elif menu == 'e':
+        print('Goodbye!!!')
+        exit()
+
+    else:
+        print("You have made a wrong choice, Please Try again")
