@@ -7,22 +7,16 @@ from datetime import date
 with open("user.txt", "r") as f:
     user_data = f.readlines()
 
-# initialise lists to append to
+# initialise lists to append to and initialise while loop bool
 usernames = []
 passwords = []
+credentials_not_entered = True
 
 # go through each line in user_data and split the line into a list of username and password, add to respective lists
 for line in user_data:
     split_user_data = line.split(", ")
     usernames.append(split_user_data[0])
     passwords.append(split_user_data[1].strip("\n"))
-
-# # put all information into a dictionary
-# user_dictionary = {
-#     "Usernames": usernames,
-#     "Passwords": passwords,
-# }
-credentials_not_entered = True
 
 # ask user to enter username and password
 while credentials_not_entered:
@@ -49,16 +43,28 @@ while credentials_not_entered:
 while True:
     # presenting the menu to the user and
     # making sure that the user input is converted to lower case.
-    menu = input('''Select one of the following Options below:
-r - Registering a user
-a - Adding a task
-va - View all tasks
-vm - view my task
-e - Exit
-: ''').lower()
+    if inputted_username == "admin":
+        # presenting the menu to the user and
+        # making sure that the user input is converted to lower case.
+        menu = input('''Select one of the following Options below:
+        r - Registering a user
+        a - Adding a task
+        va - View all tasks
+        vm - View my tasks
+        s - Display statistics
+        e - Exit
+        : ''').lower()
 
+    else:
+        menu = input('''Select one of the following Options below:
+                a - Adding a task
+                va - View all tasks
+                vm - View my tasks
+                e - Exit
+                : ''').lower()
+
+    # add a new user to the user.txt file
     if menu == 'r':
-        '''add a new user to the user.txt file'''
 
         passwords_match = False
 
@@ -75,8 +81,8 @@ e - Exit
             else:
                 print("Sorry the password you entered does not match the first, please try again")
 
+    # contains code that will allow a user to add a new task to task.txt file
     elif menu == 'a':
-        '''contains code that will allow a user to add a new task to task.txt file'''
         task_to_add = True
 
         while task_to_add:
@@ -97,9 +103,9 @@ e - Exit
             if more_tasks == "n":
                 task_to_add = False
 
+    # this will read the task from task.txt file and print all tasks to the console in the format of Output 2
+    # in the task PDF(i.e. include spacing and labelling)
     elif menu == 'va':
-        '''this will read the task from task.txt file and
-         print to the console in the format of Output 2 in the task PDF(i.e. include spacing and labelling)'''
         with open("tasks.txt", "r") as f:
             data = f.readlines()
 
@@ -115,6 +121,8 @@ e - Exit
             output += f"-------------------------\n"
             print(output)
 
+    # this will read the task from task.txt file and print just the tasks of the current user to the console
+    # in the format of Output 2 in the task PDF(i.e. include spacing and labelling)
     elif menu == 'vm':
 
         with open("tasks.txt", "r") as f:
@@ -134,6 +142,22 @@ e - Exit
                 output += f"-------------------------\n"
                 print(output)
 
+    # display total number of tasks and total number of users
+    elif menu == "s":
+        with open("tasks.txt", "r") as tasks:
+            num_tasks = 0
+            for line in tasks:
+                num_tasks += 1
+
+        with open("user.txt", "r") as users:
+            num_users = 0
+            for line in users:
+                num_users += 1
+
+        print(f"Number of users: {num_users}")
+        print(f"Number of tasks: {num_tasks}")
+
+    # exit the code
     elif menu == 'e':
         print('Goodbye!!!')
         exit()
