@@ -44,9 +44,6 @@ tkWindow = Tk()
 tkWindow.geometry('250x100')
 tkWindow.title('Task Manager Login')
 
-# ask user to enter username and password
-# while True:
-
 # username label and text entry box
 Label(tkWindow, text="User Name").grid(row=0, column=500)
 username = StringVar()

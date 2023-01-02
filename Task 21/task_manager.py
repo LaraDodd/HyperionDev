@@ -3,6 +3,7 @@ from datetime import date
 from tkinter import *
 from tkinter import messagebox
 
+
 # ====Login Section====
 
 def login():
@@ -47,9 +48,6 @@ tkWindow = Tk()
 tkWindow.geometry('250x100')
 tkWindow.title('Task Manager Login')
 
-# ask user to enter username and password
-# while True:
-
 # username label and text entry box
 Label(tkWindow, text="User Name").grid(row=0, column=500)
 username = StringVar()
@@ -64,7 +62,9 @@ Entry(tkWindow, textvariable=password).grid(row=1, column=600)
 Button(tkWindow, text="Login", command=login).grid(row=4, column=600)
 
 tkWindow.mainloop()
-
+inputted_username = username.get()
+inputted_password = password.get()
+print(inputted_password)
 
 # ========choose option section ==========
 
@@ -74,6 +74,12 @@ while True:
     if inputted_username == "admin":
         # presenting the menu to the user and
         # making sure that the user input is converted to lower case.
+
+        # set up tk window
+        tkWindow = Tk()
+        tkWindow.geometry('250x250')
+        tkWindow.title('Admin Options')
+
         menu = input('''Select one of the following Options below:
         r - Registering a user
         a - Adding a task
