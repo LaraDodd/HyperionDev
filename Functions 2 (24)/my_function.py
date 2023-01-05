@@ -11,7 +11,7 @@ def hello_sentence_edit(string):
 
     for index in range(len(words_list)):
         if index % 2 == 0:
-            words_list[index] = "hello"  # replace every other word with hello
+            words_list[index] = "Hello"  # replace every other word with hello
 
     edited_sentence = ' '.join(words_list)  # join words up into one sentence with space in between
     return edited_sentence
