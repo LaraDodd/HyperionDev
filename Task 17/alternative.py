@@ -10,7 +10,7 @@ edited_str_list = []  # initialise list to append to once edits have been made
 
 for word in user_str_word_list:
     word = list(word)  # change word to list of chars (strings are immutable so can't edit individual elements of them)
-                       # note to marker: please could you explain this a bit further?
+
     for index in range(len(word)):
         if index % 2 == 0:
             word[index] = word[index].upper()  # make upper if index is even
@@ -38,3 +38,16 @@ for index in range(len(user_str_word_list)):
 new_sentence_2 = " ".join(edited_word_list)  # join list of words into a string, each word separated with space
 print(new_sentence_2)
 
+
+
+phrase = "I am learning to code"
+phrase_split = phrase.split()
+new = ""
+for i in range(len(phrase)):
+    if i % 2 == 0:
+        new += phrase[i].lower()
+    else:
+        new += phrase[i].upper()
+
+sentence = " ".join(new)
+print(sentence)
