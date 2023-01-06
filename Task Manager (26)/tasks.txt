@@ -1,7 +1,7 @@
 admin, Register Users with taskManager.py, Use taskManager.py to add the usernames and passwords for all team members that will be using this program., 10 Oct 2019, 20 Oct 2019, No
 admin, Assign initial tasks, Use taskManager.py to assign each team member with appropriate tasks, 10 Oct 2019, 25 Oct 2019, No
 lara, gym, go to gym, 24th Jan 2023, Dec-29-2022, Yes
-lara, Go shopping, get eggs bread and milk, 29/12/2022, Dec-29-2022, No
+lara, Go shopping, get eggs bread and milk, 29/12/2022, 20/01/2023, No
 lara, household chores, do the washing up,  29/12/2022, Dec-29-2022, No
 lara, cook christmas dinner, buy ingredients find recipes plan out timings cook!, 25/12/2022, Dec-30-2022, Yes
 a, aaaaaaaa, ssssssssss, aaaa, Jan-02-2023, No

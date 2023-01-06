@@ -126,29 +126,35 @@ def view_mine(user):
         else:
             selected_task = True
 
-    # edit username:
-    new_data = []
-    for pos, line in enumerate(data, 1):
+    user_or_date = input("Would you like to edit user or date? ")
 
-        if pos == int(task_to_edit):
-            split_line = line.split(", ")
-            split_line[0] = input("Enter a new user ")
-            new_data.append(', '.join(split_line))
-        else:
-            new_data.append(line)
+    if user_or_date == "user":
+        # edit username: - turn into function
+        new_data = []
+        for pos, line in enumerate(data, 1):
 
-    # # edit date:
-    # for pos, line in enumerate(data, 1):
-    #     if pos == int(task_to_edit):
-    #         split_line = line.split(", ")
-    #         split_line[4] = input("Enter a new due date ")
+            if pos == int(task_to_edit):
+                split_line = line.split(", ")
+                split_line[0] = input("Enter a new user ")
+                new_data.append(', '.join(split_line))
+            else:
+                new_data.append(line)
+
+    else:
+        # edit date: - turn into function
+        new_data = []
+        for pos, line in enumerate(data, 1):
+
+            if pos == int(task_to_edit):
+                split_line = line.split(", ")
+                split_line[4] = input("Enter a new due date ")
+                new_data.append(', '.join(split_line))
+            else:
+                new_data.append(line)
 
     string_data = ''.join(new_data)
 
     with open("tasks.txt", "w+") as new_file:
-        new_file.write(string_data)
-
-    with open("test.txt", "w+") as new_file:
         new_file.write(string_data)
 
 
