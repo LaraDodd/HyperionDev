@@ -99,14 +99,29 @@ def view_all():
 
 
 def view_mine(user):
+    completed_tasks = []
+
     with open("tasks.txt", "r") as f:
         data = f.readlines()
 
     for pos, line in enumerate(data, 1):
         split_data = line.split(", ")
+        if "Yes" in line:
+            completed_tasks.append(pos)
 
         if split_data[0] == user:
             write_tasks(list=split_data, position=pos)
+
+    selected_task = input("edit task? ")
+    if selected_task == "-1":
+        return
+
+    while not selected_task:
+        if int(selected_task) in completed_tasks:
+            print("Sorry can't edit a complete task")
+        else:
+            selected_task = True
+
 
 
 def disp_stats():
