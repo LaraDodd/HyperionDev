@@ -99,28 +99,60 @@ def view_all():
 
 
 def view_mine(user):
-    completed_tasks = []
+    completed_tasks = []  # initialise empty list to append completed task numbers to
 
-    with open("tasks.txt", "r") as f:
+    with open("tasks.txt", "r") as f:  # open tasks and save data as list of lines
         data = f.readlines()
 
-    for pos, line in enumerate(data, 1):
-        split_data = line.split(", ")
+    for pos, line in enumerate(data, 1):  # use enumerate to give each task a number
+        split_data = line.split(", ")  # split each line into a list of separate pieces of info, e.g. title, date etc.
         if "Yes" in line:
-            completed_tasks.append(pos)
+            completed_tasks.append(pos) # if task is complete, add the task number to the list of completed tasks
 
-        if split_data[0] == user:
+        if split_data[0] == user: # if the assignee is the same as the user, print their tasks
             write_tasks(list=split_data, position=pos)
 
-    selected_task = input("edit task? ")
-    if selected_task == "-1":
+    task_to_edit = input("edit task? ")
+
+    if task_to_edit == "-1": # if the user selects -1, take them back to the main menu
         return
 
-    while not selected_task:
-        if int(selected_task) in completed_tasks:
+    selected_task = False
+    while not selected_task:  # continually ask user to edit a task until they input a task which is not complete
+
+        if int(task_to_edit) in completed_tasks:
             print("Sorry can't edit a complete task")
+            task_to_edit = input("edit task? ")
         else:
             selected_task = True
+
+    # edit username:
+    new_data = []
+    for pos, line in enumerate(data, 1):
+
+        if pos == int(task_to_edit):
+            split_line = line.split(", ")
+            split_line[0] = input("Enter a new user ")
+            new_data.append(', '.join(split_line))
+        else:
+            new_data.append(line)
+
+    # # edit date:
+    # for pos, line in enumerate(data, 1):
+    #     if pos == int(task_to_edit):
+    #         split_line = line.split(", ")
+    #         split_line[4] = input("Enter a new due date ")
+
+    string_data = ''.join(new_data)
+
+    with open("tasks.txt", "w+") as new_file:
+        new_file.write(string_data)
+
+    with open("test.txt", "w+") as new_file:
+        new_file.write(string_data)
+
+
+
 
 
 
