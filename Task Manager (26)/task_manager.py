@@ -4,30 +4,7 @@ from tkinter import *
 from tkinter import messagebox
 
 
-# functions
-def admin_menu():
-    """this function returns a string menu for the admin"""
-    return '''Select one of the following Options below:
-            r - Registering a user
-            a - Adding a task
-            va - View all tasks
-            vm - View my tasks
-            gr - Generate reports - generates user overview and task overview.
-            s - Display statistics - adds total no. users and total no. tasks stats to the reports
-            e - Exit
-            : '''
-
-
-def user_menu():
-    """this function returns a string menu for the non-admin users"""
-    return '''Select one of the following Options below:
-                a - Adding a task
-                va - View all tasks
-                vm - View my tasks
-                e - Exit
-                : '''
-
-
+# ========== functions ===========
 def user_already_in_db(user):
     """takes in user argument and returns a boolean value indicated whether user already in database"""
     with open("user.txt", "r") as users:
@@ -305,7 +282,7 @@ def generate_task_overview():
     # percentage overdue
     percentage_overdue = round(100 * num_overdue / total_tasks)
 
-    output = f"------------TASK OVERVIEW------------"
+    output = f"------------TASK OVERVIEW------------\n"
     output += f"Total complete tasks: {str(num_complete_tasks)}\n"
     output += f"Total incomplete tasks: {str(num_incomplete_tasks)}\n"
     output += f"Total overdue tasks: {str(num_overdue)}\n"
@@ -395,22 +372,29 @@ inputted_password = password.get()
 def maincode():
     # add a new user to the user.txt file
     if radio_state.get() == 'r':
+        #task_label.config(text="Go through instructions in CLI to register a user")
         reg_user()  # register user
 
     # add task
     elif radio_state.get() == 'a':
+        #task_label.config(text="Go through instructions in CLI to add a task")
         add_task()
 
     # print all tasks in readable format
     elif radio_state.get() == 'va':
+        #task_label.config(text="Look at CLI to view all tasks")
         view_all()
 
         # print just users tasks
     elif radio_state.get() == 'vm':
+        # task_label.config(text="Look at CLI to view your tasks. If you want to edit a task go through the "
+        #                        "instructions, otherwise, enter '-1' in the CLI and then choose another button")
         view_mine(inputted_username)
 
     # add stats to reports
     elif radio_state.get() == "s":
+        # task_label.config(text="You have just created two reports with stats in them :) ")
+
         # write stats to task overview file
         with open("task_overview.txt", "w") as task_overview_file:
             task_overview_file.write(disp_stats() + generate_task_overview())
@@ -422,6 +406,8 @@ def maincode():
 
     # generate reports
     elif radio_state.get() == "gr":
+        # task_label.config(text="You have just created two reports! ")
+
         # write to task overview file
         with open("task_overview.txt", "w") as task_overview_file:
             task_overview_file.write(generate_task_overview())
@@ -438,10 +424,34 @@ def maincode():
 
 # ======== main code GUI ==========
 
+
+def button_clicked():
+    option = radio_state.get()
+    if option == "r":
+        task_label.config(text="Go through instructions in CLI to register a user")
+    elif option == "a":
+        task_label.config(text="Go through instructions in CLI to add a task")
+    elif option == "va":
+        task_label.config(text="Look at CLI to view all tasks")
+    elif option == "vm":
+        task_label.config(text="Look at CLI to view your tasks. If you want to edit a task go through the "
+                               "instructions, otherwise, enter '-1' in the CLI and then choose another button")
+    elif option == "s":
+        task_label.config(text="You have just created two reports with stats in them :) ")
+    else:
+        task_label.config(text="You have just created two reports! ")
+
+
 # set up tk window
 mainWindow = Tk()
 mainWindow.minsize(width=300, height=300)
 mainWindow.title('Main Menu')
+
+title_label = Label(mainWindow, text="Welcome to the task manager! :)", font=("arial", 15, "bold"))
+title_label.grid(row=0, column=0)
+
+task_label = Label(mainWindow, text="", font=("arial", 10))
+task_label.grid(row=1, column=0)
 
 if inputted_username == "admin":
 
@@ -454,15 +464,15 @@ if inputted_username == "admin":
                                variable=radio_state, command=maincode)
     radiobutton6 = Radiobutton(text="Display statistics - adds total no. users and total no. tasks stats "
                                     "to the reports", value="s", variable=radio_state, command=maincode)
-    radiobutton7 = Radiobutton(text="Exit (don't need this with GUI)", value="e", variable=radio_state,
+    radiobutton7 = Radiobutton(text="Exit (only select if cmd line", value="e", variable=radio_state,
                                command=maincode)
-    radiobutton1.pack()
-    radiobutton2.pack()
-    radiobutton3.pack()
-    radiobutton4.pack()
-    radiobutton5.pack()
-    radiobutton6.pack()
-    radiobutton7.pack()
+    radiobutton1.grid(row=1, column=0, sticky="W", pady=20, padx=20)
+    radiobutton2.grid(row=2, column=0, sticky="W", pady=20, padx=20)
+    radiobutton3.grid(row=3, column=0, sticky="W", pady=20, padx=20)
+    radiobutton4.grid(row=4, column=0, sticky="W", pady=20, padx=20)
+    radiobutton5.grid(row=5, column=0, sticky="W", pady=20, padx=20)
+    radiobutton6.grid(row=6, column=0, sticky="W", pady=20, padx=20)
+    radiobutton7.grid(row=7, column=0, sticky="W", pady=20, padx=20)
 
 else:
     # Variable to hold on to which radio button value is checked.
@@ -470,12 +480,18 @@ else:
     radiobutton2 = Radiobutton(text="Add a task", value="a", variable=radio_state, command=maincode)
     radiobutton3 = Radiobutton(text="View all tasks", value="va", variable=radio_state, command=maincode)
     radiobutton4 = Radiobutton(text="View my tasks", value="vm", variable=radio_state, command=maincode)
+    radiobutton5 = Radiobutton(text="Generate reports - generates user overview and task overview.", value="gr",
+                               variable=radio_state, command=maincode)
     radiobutton7 = Radiobutton(text="Exit (don't need this with GUI)",
                                value="e", variable=radio_state, command=maincode)
 
-    radiobutton2.pack()
-    radiobutton3.pack()
-    radiobutton4.pack()
-    radiobutton7.pack()
+    radiobutton2.grid(row=2, column=0, sticky="W", pady=20, padx=20)
+    radiobutton3.grid(row=3, column=0, sticky="W", pady=20, padx=20)
+    radiobutton4.grid(row=4, column=0, sticky="W", pady=20, padx=20)
+    radiobutton5.grid(row=5, column=0, sticky="W", pady=20, padx=20)
+    radiobutton7.grid(row=7, column=0, sticky="W", pady=20, padx=20)
+
+my_button = Button(text="GO", command=button_clicked)  # give command when clicked
+my_button.grid(row=8, column=0, sticky="EW")
 
 mainWindow.mainloop()

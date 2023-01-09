@@ -1,6 +1,7 @@
-------------TASK OVERVIEW------------Total complete tasks: 4
-Total incomplete tasks: 7
+------------TASK OVERVIEW------------
+Total complete tasks: 5
+Total incomplete tasks: 8
 Total overdue tasks: 3
 The overdue tasks are:  Register Users with taskManager.py,  water plants,  eat, 
-Percentage incomplete: 64%
-Percentage overdue: 27%
+Percentage incomplete: 62%
+Percentage overdue: 23%
