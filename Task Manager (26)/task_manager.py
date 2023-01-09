@@ -238,7 +238,8 @@ def generate_task_overview():
     # percentage overdue
     percentage_overdue = round(100 * num_overdue / total_tasks)
 
-    output = f"Total number of tasks: {str(total_tasks)}\n"
+    output = f"------------TASK OVERVIEW------------'\033[1m\n"
+    output += f"Total number of tasks: {str(total_tasks)}\n"
     output += f"Total complete tasks: {str(num_complete_tasks)}\n"
     output += f"Total incomplete tasks: {str(num_incomplete_tasks)}\n"
     output += f"Total overdue tasks: {str(num_overdue)}\n"
@@ -246,9 +247,7 @@ def generate_task_overview():
     output += f"Percentage incomplete: {str(percentage_incomplete)}%\n"
     output += f"Percentage overdue: {str(percentage_overdue)}%"
 
-    print(output)
-
-    return total_tasks
+    return output
 
 
 def generate_user_overview(user):
@@ -290,7 +289,8 @@ def generate_user_overview(user):
 
     percentage_overdue = round(100 * num_overdue / num_user_tasks)
 
-    output = f"Total number of users: {str(total_users)}\n"
+    output = f"------------USER OVERVIEW------------\n"
+    output += f"Total number of users: {str(total_users)}\n"
     output += f"Total number of tasks: {str(total_tasks)}\n"
     output += f"Total tasks for {user}: {str(num_user_tasks)}\n"
     output += f"Percentage of {user}'s tasks out of total tasks: {str(percentage_user_tasks)}%\n"
@@ -299,8 +299,7 @@ def generate_user_overview(user):
     output += f"Percentage of {user}'s tasks that are not yet complete and overdue: {str(percentage_overdue)}%\n"
     output += f"The incomplete and overdue tasks are: {tasks_due}\n"
 
-
-    print(output)
+    return output
 
 
 # read all data in user.txt
@@ -378,8 +377,11 @@ while True:
 
     # display stats
     elif menu == "gr":
-        generate_task_overview()
-        generate_user_overview(inputted_username)
+        with open("task_overview.txt", "w") as task_overview_file:
+            task_overview_file.write(generate_task_overview())
+
+        with open("user_overview.txt", "w") as user_overview_file:
+            user_overview_file.write(generate_user_overview(inputted_username))
 
     # exit the code
     elif menu == 'e':

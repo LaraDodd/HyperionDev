@@ -1,0 +1,9 @@
+[1m------------USER OVERVIEW------------
+[0mTotal number of users: 12
+Total number of tasks: 10
+Total tasks for lara: 4
+Percentage of lara's tasks out of total tasks: 40%
+Percentage of lara's tasks that have been completed: 50%
+Percentage of lara's tasks that are not yet complete: 50%
+Percentage of lara's tasks that are not yet complete and overdue: 50%
+The incomplete and overdue tasks are:  Go shopping,  household chores, 
