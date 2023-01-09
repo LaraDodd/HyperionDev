@@ -370,30 +370,30 @@ inputted_password = password.get()
 # ========= main code function ==========
 
 def maincode():
-    # add a new user to the user.txt file
+
     if radio_state.get() == 'r':
-        #task_label.config(text="Go through instructions in CLI to register a user")
+        task_label.config(text="Go through instructions in CLI to register a user")
         reg_user()  # register user
 
     # add task
     elif radio_state.get() == 'a':
-        #task_label.config(text="Go through instructions in CLI to add a task")
+        task_label.config(text="Go through instructions in CLI to add a task")
         add_task()
 
     # print all tasks in readable format
     elif radio_state.get() == 'va':
-        #task_label.config(text="Look at CLI to view all tasks")
+        task_label.config(text="Look at CLI to view all tasks")
         view_all()
 
         # print just users tasks
     elif radio_state.get() == 'vm':
-        # task_label.config(text="Look at CLI to view your tasks. If you want to edit a task go through the "
-        #                        "instructions, otherwise, enter '-1' in the CLI and then choose another button")
+        task_label.config(text="Look at CLI to view your tasks. If you want to edit a task go through the "
+                               "instructions, otherwise, enter '-1' in the CLI and then choose another button")
         view_mine(inputted_username)
 
     # add stats to reports
     elif radio_state.get() == "s":
-        # task_label.config(text="You have just created two reports with stats in them :) ")
+        task_label.config(text="You have just created two reports with stats in them :) ")
 
         # write stats to task overview file
         with open("task_overview.txt", "w") as task_overview_file:
@@ -406,7 +406,7 @@ def maincode():
 
     # generate reports
     elif radio_state.get() == "gr":
-        # task_label.config(text="You have just created two reports! ")
+        task_label.config(text="You have just created two reports! ")
 
         # write to task overview file
         with open("task_overview.txt", "w") as task_overview_file:
@@ -423,24 +423,6 @@ def maincode():
 
 
 # ======== main code GUI ==========
-
-
-def button_clicked():
-    option = radio_state.get()
-    if option == "r":
-        task_label.config(text="Go through instructions in CLI to register a user")
-    elif option == "a":
-        task_label.config(text="Go through instructions in CLI to add a task")
-    elif option == "va":
-        task_label.config(text="Look at CLI to view all tasks")
-    elif option == "vm":
-        task_label.config(text="Look at CLI to view your tasks. If you want to edit a task go through the "
-                               "instructions, otherwise, enter '-1' in the CLI and then choose another button")
-    elif option == "s":
-        task_label.config(text="You have just created two reports with stats in them :) ")
-    else:
-        task_label.config(text="You have just created two reports! ")
-
 
 # set up tk window
 mainWindow = Tk()
@@ -490,8 +472,5 @@ else:
     radiobutton4.grid(row=4, column=0, sticky="W", pady=20, padx=20)
     radiobutton5.grid(row=5, column=0, sticky="W", pady=20, padx=20)
     radiobutton7.grid(row=7, column=0, sticky="W", pady=20, padx=20)
-
-my_button = Button(text="GO", command=button_clicked)  # give command when clicked
-my_button.grid(row=8, column=0, sticky="EW")
 
 mainWindow.mainloop()

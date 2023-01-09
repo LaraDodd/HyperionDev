@@ -1,7 +1,7 @@
 ------------USER OVERVIEW------------
-Total tasks for admin: 2
-Percentage of admin's tasks out of total tasks: 15%
-Percentage of admin's tasks that have been completed: 50%
-Percentage of admin's tasks that are not yet complete: 50%
-Percentage of admin's tasks that are not yet complete and overdue: 50%
-The incomplete and overdue tasks are:  Register Users with taskManager.py, 
+Total tasks for lara: 4
+Percentage of lara's tasks out of total tasks: 27%
+Percentage of lara's tasks that have been completed: 100%
+Percentage of lara's tasks that are not yet complete: 0%
+Percentage of lara's tasks that are not yet complete and overdue: 0%
+The incomplete and overdue tasks are: 

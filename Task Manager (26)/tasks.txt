@@ -11,5 +11,5 @@ user2, eat, make pasta, Dec-30-2022, Feb-01-2023, No
 user, bleh, bleeeeeeeeeeeeeeeeeeeh, Feb-06-2023, Jan-09-2023, No
 use, yaaaas, quee, Jan-09-2023, Jan-09-2023, No
 isaac, re, rr, Jan-30-2022, Jan-09-2023, No
-lara, hello, say hi, Jan-04-2023, Jan-09-2023, No
+lara, hello, say hi, Jan-04-2023, Jan-09-2023, Yes
 admin, debug, spend time debugging GUI label config, Jan-09-2023, Jan-09-2023, No
