@@ -29,7 +29,7 @@ def user_menu():
 
 
 def user_already_in_db(user):
-    """takes in user argument and returns a boolean value indicated whether user already in databse"""
+    """takes in user argument and returns a boolean value indicated whether user already in database"""
     with open("user.txt", "r") as users:
         user_data = users.read()
         if f"{user}," in user_data:
@@ -49,7 +49,7 @@ def reg_user():
 
         # check if entered username already in users.txt, if it is, ask user to enter different username
         if user_already_in_db(inputted_new_username):
-            print("This user already exists, please add a non-exisiting user")
+            print("This user already exists, please add a non-existing user")
             continue
 
         inputted_new_password = input("Please enter a new password: ")
@@ -89,7 +89,8 @@ def add_task():
 
 
 def write_tasks(list, position):
-    "takes in a list of tasks and position, concantinates string of task information including position, and prints it"
+    """takes in a list of tasks and position, concatenates string of task information including
+    position, and prints it"""
     output = f"------------{position}------------\n"
     output += f"Username: {list[0]}\n"
     output += f"Task title: {list[1]}\n"
@@ -214,7 +215,7 @@ def view_mine(user):
             # edit due date
             edited_data = edit_due_date(task_data=data, task_number=task_to_edit)
 
-    #join together list of tasks into 1 big string
+    # join together list of tasks into 1 big string
     string_data = ''.join(edited_data)
 
     with open("tasks.txt", "w+") as new_file:
@@ -309,8 +310,6 @@ def generate_task_overview():
 def generate_user_overview(user):
     with open("user.txt", "r") as f:
         user_data = f.readlines()
-    # total num users
-    total_users = len(user_data)
 
     # total num tasks
     with open("tasks.txt", "r") as f:
@@ -377,8 +376,9 @@ tkWindow.config(padx=20, pady=20)
 
 # username label and text entry box
 Label(tkWindow, text="User Name").grid(row=0, column=0)
-username = StringVar()
-Entry(tkWindow, textvariable=username).grid(row=0, column=1)
+username = StringVar()  # holder for string variables, use to reference your inputted variables later in code
+user_input = Entry(tkWindow, textvariable=username)
+user_input.grid(row=0, column=1)
 
 # password label and password entry box
 Label(tkWindow, text="Password").grid(row=1, column=0)
@@ -395,16 +395,9 @@ inputted_password = password.get()
 # ========choose option section ==========
 
 while True:
-    # presenting the menu to the user and
-    # making sure that the user input is converted to lower case.
+    # presenting the menu to the user
     if inputted_username == "admin":
-
-        # # set up tk window
-        # tkWindow = Tk()
-        # tkWindow.geometry('250x250')
-        # tkWindow.title('Admin Options')
-
-        menu = input(admin_menu()).lower()
+        menu = input(admin_menu()).lower()  # make sure that the user input is converted to lower case.
 
     else:
         menu = input(user_menu()).lower()
