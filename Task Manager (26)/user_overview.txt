@@ -1,6 +1,4 @@
-[1m------------USER OVERVIEW------------
-[0mTotal number of users: 12
-Total number of tasks: 10
+------------USER OVERVIEW------------
 Total tasks for lara: 4
 Percentage of lara's tasks out of total tasks: 40%
 Percentage of lara's tasks that have been completed: 50%

@@ -12,8 +12,8 @@ def admin_menu():
             a - Adding a task
             va - View all tasks
             vm - View my tasks
-            gr - Generate reports
-            s - Display statistics
+            gr - Generate reports - generates user overview and task overview.
+            s - Display statistics - adds total no. users and total no. tasks stats to the reports
             e - Exit
             : '''
 
@@ -171,15 +171,19 @@ def view_mine(user):
 
 
 def disp_stats():
-    """reads tasks and user text docs and displays number of users and number of tasks"""
+    """reads tasks and user text docs and returns a string displaying number of users and number of tasks"""
     with open("tasks.txt", "r") as tasks:
         num_tasks = len(tasks.readlines())
 
     with open("user.txt", "r") as users:
         num_users = len(users.readlines())
 
-    print(f"Number of users: {num_users}")
-    print(f"Number of tasks: {num_tasks}")
+    output = f"------------STATISTICS-------------\n"
+    output += f"Number of users: {num_users}\n"
+    output += f"Number of tasks: {num_tasks}\n"
+    output += f"\n"
+
+    return output
 
 
 def login():
@@ -239,7 +243,6 @@ def generate_task_overview():
     percentage_overdue = round(100 * num_overdue / total_tasks)
 
     output = f"------------TASK OVERVIEW------------'\033[1m\n"
-    output += f"Total number of tasks: {str(total_tasks)}\n"
     output += f"Total complete tasks: {str(num_complete_tasks)}\n"
     output += f"Total incomplete tasks: {str(num_incomplete_tasks)}\n"
     output += f"Total overdue tasks: {str(num_overdue)}\n"
@@ -290,8 +293,6 @@ def generate_user_overview(user):
     percentage_overdue = round(100 * num_overdue / num_user_tasks)
 
     output = f"------------USER OVERVIEW------------\n"
-    output += f"Total number of users: {str(total_users)}\n"
-    output += f"Total number of tasks: {str(total_tasks)}\n"
     output += f"Total tasks for {user}: {str(num_user_tasks)}\n"
     output += f"Percentage of {user}'s tasks out of total tasks: {str(percentage_user_tasks)}%\n"
     output += f"Percentage of {user}'s tasks that have been completed: {str(percentage_completed_user_tasks)}%\n"
@@ -371,15 +372,24 @@ while True:
     elif menu == 'vm':
         view_mine(inputted_username)
 
-        # display stats
+    # add stats to reports
     elif menu == "s":
+        # write stats to task overview file
+        with open("task_overview.txt", "w") as task_overview_file:
+            task_overview_file.write(disp_stats() + generate_task_overview())
+
+        # write stats to user overview file
+        with open("user_overview.txt", "w") as user_overview_file:
+            user_overview_file.write(disp_stats() + generate_user_overview(inputted_username))
         disp_stats()
 
-    # display stats
+    # generate reports
     elif menu == "gr":
+        # write to task overview file
         with open("task_overview.txt", "w") as task_overview_file:
             task_overview_file.write(generate_task_overview())
 
+        # write to user overview file
         with open("user_overview.txt", "w") as user_overview_file:
             user_overview_file.write(generate_user_overview(inputted_username))
 
