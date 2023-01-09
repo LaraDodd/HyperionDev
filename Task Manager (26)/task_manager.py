@@ -47,7 +47,7 @@ def reg_user():
 
         inputted_new_username = input("Please enter a new username: ")
 
-        #check if entered username already in users.txt, if it is, ask user to enter different username
+        # check if entered username already in users.txt, if it is, ask user to enter different username
         if user_already_in_db(inputted_new_username):
             print("This user already exists, please add a non-exisiting user")
             continue
@@ -55,7 +55,7 @@ def reg_user():
         inputted_new_password = input("Please enter a new password: ")
         second_password = input("Please confirm your password: ")
 
-        #if both entered passwords match, write user info to users.txt and exit while loop, else ask to try again
+        # if both entered passwords match, write user info to users.txt and exit while loop, else ask to try again
         if second_password == inputted_new_password:
             with open("user.txt", "a") as f:
                 f.write(f"\n{inputted_new_username}, {inputted_new_password}")
@@ -112,6 +112,7 @@ def view_all():
         split_data = line.split(", ")
         write_tasks(list=split_data, position=pos)
 
+
 def edit_username(task_data, task_number):
     """takes in task data and a specific task number. Allows user to edit assigned user in specified task.
     Returns new data in string format"""
@@ -121,10 +122,14 @@ def edit_username(task_data, task_number):
         if pos == int(task_number):
             split_line = line.split(", ")
             split_line[0] = input("Enter a new user ")
+            print(f"Task {task_number} is now assigned to {split_line[0]}")
             new_data.append(', '.join(split_line))
+
         else:
             new_data.append(line)
+
     return new_data
+
 
 def edit_due_date(task_data, task_number):
     """takes in task data and a specific task number. Allows user to edit assigned user in specified task. 
@@ -135,10 +140,29 @@ def edit_due_date(task_data, task_number):
         if pos == int(task_number):
             split_line = line.split(", ")
             split_line[4] = input("Enter a new due date - in the form MMM-DD-YYYY: ")
+            print(f"Task {task_number} now has a due data of {split_line[4]}")
             new_data.append(', '.join(split_line))
+
         else:
             new_data.append(line)
+
     return new_data
+
+
+def mark_task_as_complete(task_number, task_data):
+    """takes in task number and task data and marks specified task as complete. Returns new task data"""
+    new_data = []
+    for pos, task in enumerate(task_data, 1):
+        if pos == int(task_number):
+            edited_task = task.replace("No", "Yes")
+            new_data.append(edited_task)
+            print(f"Task{task_number} is now marked as complete")
+
+        else:
+            new_data.append(task)
+
+    return new_data
+
 
 def view_mine(user):
     """takes in user argument and prints out user tasks in readable format. Allows user to edit incomplete
@@ -156,29 +180,41 @@ def view_mine(user):
         if split_data[0] == user:  # if the assignee is the same as the user, print their tasks
             write_tasks(list=split_data, position=pos)
 
-    task_to_edit = input("edit task? ")
+    # editing tasks
+    task_to_edit = input("Would you like to edit a task? If yes, type the task "
+                         "number that you want to edit, or type -1 to return to main menu: ")
     if task_to_edit == "-1":  # if the user selects -1, take them back to the main menu
         return
 
+    #  task selection checks
     selected_task = False
     while not selected_task:  # continually ask user to edit a task until they input a task which is not complete
 
-        #check if entered task number represents a completed task, if task is incomplete, break out of while loop
+        # check if entered task number represents a completed task, if task is incomplete, break out of while loop
         if int(task_to_edit) in completed_tasks:
             print("Sorry can't edit a complete task")
-            task_to_edit = input("edit task? ")
+            task_to_edit = input("Enter the task number of the task you would like to edit: ")
         else:
             selected_task = True
 
-    user_or_date = input("Would you like to edit user or date? ")
-    if user_or_date == "user":
-        # edit username
-        edited_data = edit_username(task_data=data, task_number=task_to_edit)
+    # ask user what they want to edit
+    complete_or_edit = input(f"Would you like to mark task{task_to_edit} as complete (c) or edit (e) the task? ")
+
+    if complete_or_edit == "c":
+        # mark task as complete
+        edited_data = mark_task_as_complete(task_number=task_to_edit, task_data=data)
 
     else:
-        # edit due date
-        edited_data = edit_due_date(task_data=data, task_number=task_to_edit)
+        user_or_date = input("Would you like to edit user assigned (type user) or due date? (date) ")
+        if user_or_date == "user":
+            # edit username
+            edited_data = edit_username(task_data=data, task_number=task_to_edit)
 
+        else:
+            # edit due date
+            edited_data = edit_due_date(task_data=data, task_number=task_to_edit)
+
+    #join together list of tasks into 1 big string
     string_data = ''.join(edited_data)
 
     with open("tasks.txt", "w+") as new_file:
