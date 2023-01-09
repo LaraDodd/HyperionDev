@@ -32,7 +32,7 @@ def user_already_in_db(user):
     """takes in user argument and returns a boolean value indicated whether user already in databse"""
     with open("user.txt", "r") as users:
         user_data = users.read()
-        if user in user_data:
+        if f"{user}," in user_data:
             return True
         else:
             return False
@@ -46,6 +46,8 @@ def reg_user():
     while not passwords_match:
 
         inputted_new_username = input("Please enter a new username: ")
+
+        #check if entered username already in users.txt, if it is, ask user to enter different username
         if user_already_in_db(inputted_new_username):
             print("This user already exists, please add a non-exisiting user")
             continue
@@ -53,6 +55,7 @@ def reg_user():
         inputted_new_password = input("Please enter a new password: ")
         second_password = input("Please confirm your password: ")
 
+        #if both entered passwords match, write user info to users.txt and exit while loop, else ask to try again
         if second_password == inputted_new_password:
             with open("user.txt", "a") as f:
                 f.write(f"\n{inputted_new_username}, {inputted_new_password}")
@@ -70,7 +73,7 @@ def add_task():
         inputted_task_assignee = input("Please enter username of the person whom the task is assigned to: ")
         inputted_task_title = input("Please enter title of the task: ")
         inputted_description = input("Please enter description of the task: ")
-        inputted_due_date = input("Please enter due date of task: in the form MMM-DD-YYYY: ")
+        inputted_due_date = input("Please enter due date of task - in the form MMM-DD-YYYY: ")
         today_date = date.today().strftime("%b-%d-%Y")
         task_complete = "No"
 
@@ -91,8 +94,8 @@ def write_tasks(list, position):
     output += f"Username: {list[0]}\n"
     output += f"Task title: {list[1]}\n"
     output += f"Task description: {list[2]}\n"
-    output += f"Date assigned: {list[3]}\n"
-    output += f"Date due: {list[4]}\n"
+    output += f"Date due: {list[3]}\n"
+    output += f"Date assigned: {list[4]}\n"
     output += f"Task complete? {list[5]}\n"
     output += f"-------------------------\n"
     print(output)
@@ -103,10 +106,39 @@ def view_all():
     with open("tasks.txt", "r") as f:
         data = f.readlines()
 
+    # cycle through task data, split each line into a list where each list item is a different piece of
+    # information, e.g. due date, task name etc. Print these tasks in readable format
     for pos, line in enumerate(data, 1):
         split_data = line.split(", ")
         write_tasks(list=split_data, position=pos)
 
+def edit_username(task_data, task_number):
+    """takes in task data and a specific task number. Allows user to edit assigned user in specified task.
+    Returns new data in string format"""
+    new_data = []
+    for pos, line in enumerate(task_data, 1):
+
+        if pos == int(task_number):
+            split_line = line.split(", ")
+            split_line[0] = input("Enter a new user ")
+            new_data.append(', '.join(split_line))
+        else:
+            new_data.append(line)
+    return new_data
+
+def edit_due_date(task_data, task_number):
+    """takes in task data and a specific task number. Allows user to edit assigned user in specified task. 
+        Returns new data in string format"""
+    new_data = []
+    for pos, line in enumerate(task_data, 1):
+
+        if pos == int(task_number):
+            split_line = line.split(", ")
+            split_line[4] = input("Enter a new due date - in the form MMM-DD-YYYY: ")
+            new_data.append(', '.join(split_line))
+        else:
+            new_data.append(line)
+    return new_data
 
 def view_mine(user):
     """takes in user argument and prints out user tasks in readable format. Allows user to edit incomplete
@@ -125,13 +157,13 @@ def view_mine(user):
             write_tasks(list=split_data, position=pos)
 
     task_to_edit = input("edit task? ")
-
     if task_to_edit == "-1":  # if the user selects -1, take them back to the main menu
         return
 
     selected_task = False
     while not selected_task:  # continually ask user to edit a task until they input a task which is not complete
 
+        #check if entered task number represents a completed task, if task is incomplete, break out of while loop
         if int(task_to_edit) in completed_tasks:
             print("Sorry can't edit a complete task")
             task_to_edit = input("edit task? ")
@@ -139,35 +171,20 @@ def view_mine(user):
             selected_task = True
 
     user_or_date = input("Would you like to edit user or date? ")
-
     if user_or_date == "user":
-        # edit username: - turn into function
-        new_data = []
-        for pos, line in enumerate(data, 1):
-
-            if pos == int(task_to_edit):
-                split_line = line.split(", ")
-                split_line[0] = input("Enter a new user ")
-                new_data.append(', '.join(split_line))
-            else:
-                new_data.append(line)
+        # edit username
+        edited_data = edit_username(task_data=data, task_number=task_to_edit)
 
     else:
-        # edit date: - turn into function
-        new_data = []
-        for pos, line in enumerate(data, 1):
+        # edit due date
+        edited_data = edit_due_date(task_data=data, task_number=task_to_edit)
 
-            if pos == int(task_to_edit):
-                split_line = line.split(", ")
-                split_line[4] = input("Enter a new due date ")
-                new_data.append(', '.join(split_line))
-            else:
-                new_data.append(line)
-
-    string_data = ''.join(new_data)
+    string_data = ''.join(edited_data)
 
     with open("tasks.txt", "w+") as new_file:
         new_file.write(string_data)
+
+    return
 
 
 def disp_stats():
@@ -242,7 +259,7 @@ def generate_task_overview():
     # percentage overdue
     percentage_overdue = round(100 * num_overdue / total_tasks)
 
-    output = f"------------TASK OVERVIEW------------'\033[1m\n"
+    output = f"------------TASK OVERVIEW------------"
     output += f"Total complete tasks: {str(num_complete_tasks)}\n"
     output += f"Total incomplete tasks: {str(num_incomplete_tasks)}\n"
     output += f"Total overdue tasks: {str(num_overdue)}\n"

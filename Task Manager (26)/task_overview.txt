@@ -1,7 +1,11 @@
+------------STATISTICS-------------
+Number of users: 13
+Number of tasks: 11
+
 ------------TASK OVERVIEW------------'[1m
 Total complete tasks: 3
-Total incomplete tasks: 7
-Total overdue tasks: 5
-The overdue tasks are:  Register Users with taskManager.py,  Go shopping,  household chores,  water plants,  eat, 
-Percentage incomplete: 70%
-Percentage overdue: 50%
+Total incomplete tasks: 8
+Total overdue tasks: 3
+The overdue tasks are:  Register Users with taskManager.py,  water plants,  eat, 
+Percentage incomplete: 73%
+Percentage overdue: 27%
