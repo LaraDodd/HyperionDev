@@ -6,17 +6,20 @@ from tkinter import messagebox
 
 # functions
 def admin_menu():
+    """this function returns a string menu for the admin"""
     return '''Select one of the following Options below:
             r - Registering a user
             a - Adding a task
             va - View all tasks
             vm - View my tasks
+            gr - Generate reports
             s - Display statistics
             e - Exit
             : '''
 
 
 def user_menu():
+    """this function returns a string menu for the non-admin users"""
     return '''Select one of the following Options below:
                 a - Adding a task
                 va - View all tasks
@@ -24,7 +27,9 @@ def user_menu():
                 e - Exit
                 : '''
 
+
 def user_already_in_db(user):
+    """takes in user argument and returns a boolean value indicated whether user already in databse"""
     with open("user.txt", "r") as users:
         user_data = users.read()
         if user in user_data:
@@ -34,6 +39,8 @@ def user_already_in_db(user):
 
 
 def reg_user():
+    """asks for new user, adds a new user to the user.txt file if user not already in database
+    checks if passwords match, if they don't, asks user to try again"""
     passwords_match = False
 
     while not passwords_match:
@@ -56,13 +63,14 @@ def reg_user():
 
 
 def add_task():
+    """adds a new task to task.txt file, asks user to input information and writes it to task file"""
     task_to_add = True
 
     while task_to_add:
         inputted_task_assignee = input("Please enter username of the person whom the task is assigned to: ")
         inputted_task_title = input("Please enter title of the task: ")
         inputted_description = input("Please enter description of the task: ")
-        inputted_due_date = input("Please enter due date of task: ")
+        inputted_due_date = input("Please enter due date of task: in the form MMM-DD-YYYY: ")
         today_date = date.today().strftime("%b-%d-%Y")
         task_complete = "No"
 
@@ -78,6 +86,7 @@ def add_task():
 
 
 def write_tasks(list, position):
+    "takes in a list of tasks and position, concantinates string of task information including position, and prints it"
     output = f"------------{position}------------\n"
     output += f"Username: {list[0]}\n"
     output += f"Task title: {list[1]}\n"
@@ -90,6 +99,7 @@ def write_tasks(list, position):
 
 
 def view_all():
+    """reads tasks and prints out in readable format"""
     with open("tasks.txt", "r") as f:
         data = f.readlines()
 
@@ -99,6 +109,8 @@ def view_all():
 
 
 def view_mine(user):
+    """takes in user argument and prints out user tasks in readable format. Allows user to edit incomplete
+    tasks by changing assignee or due date"""
     completed_tasks = []  # initialise empty list to append completed task numbers to
 
     with open("tasks.txt", "r") as f:  # open tasks and save data as list of lines
@@ -107,14 +119,14 @@ def view_mine(user):
     for pos, line in enumerate(data, 1):  # use enumerate to give each task a number
         split_data = line.split(", ")  # split each line into a list of separate pieces of info, e.g. title, date etc.
         if "Yes" in line:
-            completed_tasks.append(pos) # if task is complete, add the task number to the list of completed tasks
+            completed_tasks.append(pos)  # if task is complete, add the task number to the list of completed tasks
 
-        if split_data[0] == user: # if the assignee is the same as the user, print their tasks
+        if split_data[0] == user:  # if the assignee is the same as the user, print their tasks
             write_tasks(list=split_data, position=pos)
 
     task_to_edit = input("edit task? ")
 
-    if task_to_edit == "-1": # if the user selects -1, take them back to the main menu
+    if task_to_edit == "-1":  # if the user selects -1, take them back to the main menu
         return
 
     selected_task = False
@@ -158,11 +170,8 @@ def view_mine(user):
         new_file.write(string_data)
 
 
-
-
-
-
 def disp_stats():
+    """reads tasks and user text docs and displays number of users and number of tasks"""
     with open("tasks.txt", "r") as tasks:
         num_tasks = len(tasks.readlines())
 
@@ -173,9 +182,9 @@ def disp_stats():
     print(f"Number of tasks: {num_tasks}")
 
 
-# ====Login Section====
-
 def login():
+    """asks user for username and password, if in user db, logins in, else gives relevant error message adn option
+    to try again"""
     entered_username = username.get()
     entered_password = password.get()
 
@@ -196,6 +205,102 @@ def login():
             messagebox.showinfo("Login Successful", "Please wait while we log you in!!")
             tkWindow.destroy()
             return False
+
+
+def generate_task_overview():
+    """prints task data: total tasks, total complete / incomplete tasks, total overdue, names of overdue, percentage
+    overdue, percentage complete"""
+    with open("tasks.txt", "r") as f:
+        task_data = f.readlines()
+    # total num
+    total_tasks = len(task_data)
+
+    # total complete
+    complete_tasks = [task for task in task_data if "Yes" in task]
+    num_complete_tasks = len(complete_tasks)
+
+    # total incomplete
+    incomplete_tasks = [task for task in task_data if "No" in task]
+    num_incomplete_tasks = len(incomplete_tasks)
+
+    # total overdue
+    num_overdue = 0
+    task_due = ""
+    for task in incomplete_tasks:
+        split_data = task.split(",")
+        if split_data[4].strip(" ") < date.today().strftime("%b-%d-%Y"):
+            num_overdue += 1
+            task_due += split_data[1] + ", "
+
+    # percentage incomplete
+    percentage_incomplete = round(100 * num_incomplete_tasks / total_tasks)
+
+    # percentage overdue
+    percentage_overdue = round(100 * num_overdue / total_tasks)
+
+    output = f"Total number of tasks: {str(total_tasks)}\n"
+    output += f"Total complete tasks: {str(num_complete_tasks)}\n"
+    output += f"Total incomplete tasks: {str(num_incomplete_tasks)}\n"
+    output += f"Total overdue tasks: {str(num_overdue)}\n"
+    output += f"The overdue tasks are: {task_due}\n"
+    output += f"Percentage incomplete: {str(percentage_incomplete)}%\n"
+    output += f"Percentage overdue: {str(percentage_overdue)}%"
+
+    print(output)
+
+    return total_tasks
+
+
+def generate_user_overview(user):
+    with open("user.txt", "r") as f:
+        user_data = f.readlines()
+    # total num users
+    total_users = len(user_data)
+
+    # total num tasks
+    with open("tasks.txt", "r") as f:
+        task_data = f.readlines()
+    total_tasks = len(task_data)
+
+    # total tasks for that user
+    user_tasks = [task for task in task_data if user in task]
+    num_user_tasks = len(user_tasks)
+
+    # percentage tasks for user
+    percentage_user_tasks = round(100 * num_user_tasks / total_tasks)
+
+    # percentage user tasks completed
+    completed_user_tasks = [user_task for user_task in user_tasks if "Yes" in user_task]
+    num_completed_user_tasks = len(completed_user_tasks)
+    percentage_completed_user_tasks = round(100 * num_completed_user_tasks / num_user_tasks)
+
+    # percentage user tasks not yet completed
+    percentage_incomplete_user_tasks = 100 - percentage_completed_user_tasks
+
+    # percentage incomplete and overdue
+    incomplete_user_tasks = [user_task for user_task in user_tasks if "No" in user_task]
+    num_overdue = 0
+    tasks_due = ""
+
+    for task in incomplete_user_tasks:
+        split_task = task.split(",")
+        if split_task[4].strip(" ") < date.today().strftime("%b-%d-%Y"):
+            num_overdue += 1
+            tasks_due += split_task[1] + ", "
+
+    percentage_overdue = round(100 * num_overdue / num_user_tasks)
+
+    output = f"Total number of users: {str(total_users)}\n"
+    output += f"Total number of tasks: {str(total_tasks)}\n"
+    output += f"Total tasks for {user}: {str(num_user_tasks)}\n"
+    output += f"Percentage of {user}'s tasks out of total tasks: {str(percentage_user_tasks)}%\n"
+    output += f"Percentage of {user}'s tasks that have been completed: {str(percentage_completed_user_tasks)}%\n"
+    output += f"Percentage of {user}'s tasks that are not yet complete: {str(percentage_incomplete_user_tasks)}%\n"
+    output += f"Percentage of {user}'s tasks that are not yet complete and overdue: {str(percentage_overdue)}%\n"
+    output += f"The incomplete and overdue tasks are: {tasks_due}\n"
+
+
+    print(output)
 
 
 # read all data in user.txt
@@ -255,23 +360,26 @@ while True:
     if menu == 'r':
         reg_user()  # register user
 
-    # contains code that will allow a user to add a new task to task.txt file
+    # add task
     elif menu == 'a':
-        add_task()  # adds a task
+        add_task()
 
-    # this will read the task from task.txt file and print all tasks to the console in the format of Output 2
-    # in the task PDF(i.e. include spacing and labelling)
+    # print all tasks in readable format
     elif menu == 'va':
-        view_all()  # prints all tasks
+        view_all()
 
-    # this will read the task from task.txt file and print just the tasks of the current user to the console
-    # in the format of Output 2 in the task PDF(i.e. include spacing and labelling)
+        # print just users tasks
     elif menu == 'vm':
-        view_mine(inputted_username)  # prints inputted user's tasks
+        view_mine(inputted_username)
 
-    # display total number of tasks and total number of users
+        # display stats
     elif menu == "s":
         disp_stats()
+
+    # display stats
+    elif menu == "gr":
+        generate_task_overview()
+        generate_user_overview(inputted_username)
 
     # exit the code
     elif menu == 'e':
