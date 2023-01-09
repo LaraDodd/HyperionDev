@@ -241,28 +241,37 @@ def disp_stats():
 
 
 def login():
-    """asks user for username and password, if in user db, logins in, else gives relevant error message adn option
-    to try again"""
+    """asks user for username and password, if in user db, logins in, else gives relevant error message and option
+    to try again and boolean value"""
+    with open("user.txt", "r") as f:
+        user_data = f.readlines()
+
+    # initialise lists to append to and initialise while loop bool
+    usernames = []
+    passwords = []
+
+    # go through each line in user_data and split the line into a list of username and password, add to respective lists
+    for line in user_data:
+        split_user_data = line.split(", ")
+        usernames.append(split_user_data[0])
+        passwords.append(split_user_data[1].strip("\n"))
+
     entered_username = username.get()
     entered_password = password.get()
 
     if entered_password not in passwords and entered_username not in usernames:
         messagebox.showinfo("Incorrect Credentials", "These are both not in our system")
-        return True
 
     for i in range(len(usernames)):
         if entered_username == usernames[i] and not entered_password == passwords[i]:
             messagebox.showinfo("Incorrect Credentials", "Your password is incorrect try again")
-            return True
 
         if entered_password == passwords[i] and not entered_username == usernames[i]:
             messagebox.showinfo("Incorrect Credentials", "Your username is incorrect try again")
-            return True
 
         if entered_username == usernames[i] and entered_password == passwords[i]:
             messagebox.showinfo("Login Successful", "Please wait while we log you in!!")
             tkWindow.destroy()
-            return False
 
 
 def generate_task_overview():
@@ -355,19 +364,7 @@ def generate_user_overview(user):
     return output
 
 
-# read all data in user.txt
-with open("user.txt", "r") as f:
-    user_data = f.readlines()
-
-# initialise lists to append to and initialise while loop bool
-usernames = []
-passwords = []
-
-# go through each line in user_data and split the line into a list of username and password, add to respective lists
-for line in user_data:
-    split_user_data = line.split(", ")
-    usernames.append(split_user_data[0])
-    passwords.append(split_user_data[1].strip("\n"))
+# ========= login GUI ==========
 
 # set up tk window
 tkWindow = Tk()
@@ -375,7 +372,7 @@ tkWindow.title('Task Manager Login')
 tkWindow.config(padx=20, pady=20)
 
 # username label and text entry box
-Label(tkWindow, text="User Name").grid(row=0, column=0)
+Label(tkWindow, text="Username").grid(row=0, column=0)
 username = StringVar()  # holder for string variables, use to reference your inputted variables later in code
 user_input = Entry(tkWindow, textvariable=username)
 user_input.grid(row=0, column=1)
@@ -392,34 +389,28 @@ tkWindow.mainloop()
 inputted_username = username.get()
 inputted_password = password.get()
 
-# ========choose option section ==========
 
-while True:
-    # presenting the menu to the user
-    if inputted_username == "admin":
-        menu = input(admin_menu()).lower()  # make sure that the user input is converted to lower case.
+# ========= main code function ==========
 
-    else:
-        menu = input(user_menu()).lower()
-
+def maincode():
     # add a new user to the user.txt file
-    if menu == 'r':
+    if radio_state.get() == 'r':
         reg_user()  # register user
 
     # add task
-    elif menu == 'a':
+    elif radio_state.get() == 'a':
         add_task()
 
     # print all tasks in readable format
-    elif menu == 'va':
+    elif radio_state.get() == 'va':
         view_all()
 
         # print just users tasks
-    elif menu == 'vm':
+    elif radio_state.get() == 'vm':
         view_mine(inputted_username)
 
     # add stats to reports
-    elif menu == "s":
+    elif radio_state.get() == "s":
         # write stats to task overview file
         with open("task_overview.txt", "w") as task_overview_file:
             task_overview_file.write(disp_stats() + generate_task_overview())
@@ -430,7 +421,7 @@ while True:
         disp_stats()
 
     # generate reports
-    elif menu == "gr":
+    elif radio_state.get() == "gr":
         # write to task overview file
         with open("task_overview.txt", "w") as task_overview_file:
             task_overview_file.write(generate_task_overview())
@@ -440,9 +431,51 @@ while True:
             user_overview_file.write(generate_user_overview(inputted_username))
 
     # exit the code
-    elif menu == 'e':
+    elif radio_state.get() == 'e':
         print('Goodbye!!!')
         exit()
 
-    else:
-        print("You have made a wrong choice, Please Try again")
+
+# ======== main code GUI ==========
+
+# set up tk window
+mainWindow = Tk()
+mainWindow.minsize(width=300, height=300)
+mainWindow.title('Main Menu')
+
+if inputted_username == "admin":
+
+    radio_state = StringVar(value="r")  # Variable to hold on to which radio button value is checked.
+    radiobutton1 = Radiobutton(text="Register a user", value="r", variable=radio_state, command=maincode)
+    radiobutton2 = Radiobutton(text="Add a task", value="a", variable=radio_state, command=maincode)
+    radiobutton3 = Radiobutton(text="View all tasks", value="va", variable=radio_state, command=maincode)
+    radiobutton4 = Radiobutton(text="View my tasks", value="vm", variable=radio_state, command=maincode)
+    radiobutton5 = Radiobutton(text="Generate reports - generates user overview and task overview.", value="gr",
+                               variable=radio_state, command=maincode)
+    radiobutton6 = Radiobutton(text="Display statistics - adds total no. users and total no. tasks stats "
+                                    "to the reports", value="s", variable=radio_state, command=maincode)
+    radiobutton7 = Radiobutton(text="Exit (don't need this with GUI)", value="e", variable=radio_state,
+                               command=maincode)
+    radiobutton1.pack()
+    radiobutton2.pack()
+    radiobutton3.pack()
+    radiobutton4.pack()
+    radiobutton5.pack()
+    radiobutton6.pack()
+    radiobutton7.pack()
+
+else:
+    # Variable to hold on to which radio button value is checked.
+    radio_state = StringVar(value="a")
+    radiobutton2 = Radiobutton(text="Add a task", value="a", variable=radio_state, command=maincode)
+    radiobutton3 = Radiobutton(text="View all tasks", value="va", variable=radio_state, command=maincode)
+    radiobutton4 = Radiobutton(text="View my tasks", value="vm", variable=radio_state, command=maincode)
+    radiobutton7 = Radiobutton(text="Exit (don't need this with GUI)",
+                               value="e", variable=radio_state, command=maincode)
+
+    radiobutton2.pack()
+    radiobutton3.pack()
+    radiobutton4.pack()
+    radiobutton7.pack()
+
+mainWindow.mainloop()

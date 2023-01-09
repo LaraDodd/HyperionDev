@@ -1,7 +1,3 @@
-------------STATISTICS-------------
-Number of users: 13
-Number of tasks: 11
-
 ------------USER OVERVIEW------------
 Total tasks for admin: 2
 Percentage of admin's tasks out of total tasks: 18%
