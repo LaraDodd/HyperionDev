@@ -2,11 +2,11 @@
 free spots, and it outputs a grid where each free spot is replaced by a number indicating whether
 there is a mine next to it"""
 
-example = [["-", "-", "-", "#", "#"],
-           ["-", "#", "-", "-", "-"],
-           ["-", "-", "#", "-", "-"],
-           ["-", "#", "#", "-", "-"],
-           ["-", "-", "-", "-", "-"]]
+example = [["-", "-", "-", "#", "#",],
+           ["-", "#", "-", "-", "",],
+           ["-", "-", "#", "-", "-",],
+           ["-", "#", "#", "-", "-",],
+           ["-", "-", "-", "-", "-",]]
 
 
 #find the length of the example matrix rows and columns
@@ -66,7 +66,7 @@ for coords in nested_list_of_mines:
 new_list = []
 for i in range(1, len(zeros)-1):
     new_list_row = zeros[i]
-    new_list_cols = new_list_row[1:6]
+    new_list_cols = new_list_row[1:len(zeros[1])-1]
     new_list.append(new_list_cols)
 
 print()
