@@ -20,18 +20,20 @@ from datetime import date
 #     print("true")
 # else:
 #     print("false")
+# #
+# list = [[3]*7 for item in range(7)]
 #
-list = [[3]*7 for item in range(7)]
+# for row in list:
+#     print(row)
+#
+# for i in range(1,len(list)-1):
+#     new_list_row = list[i]
+#     new_list= new_list_row[1:6]
+#     print(new_list)
+#
+# print()
+#
+# for row in newlist:
+#     print(row)
 
-for row in list:
-    print(row)
-
-for i in range(1,len(list)-1):
-    new_list_row = list[i]
-    new_list= new_list_row[1:6]
-    print(new_list)
-
-print()
-
-for row in newlist:
-    print(row)
+print(3/4)
