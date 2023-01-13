@@ -45,7 +45,7 @@ def calculator(operation: Callable, n1: int, n2: int) -> Union[float, int]:  # t
     return operation(n1, n2)
 
 
-def run_calculator():
+def run_calculator() -> str:
     """Asks user for 2 inputs and tries to make each an integer, then asks user to input an operation and tries to use
      that input as a key to call the operation and input two numbers as arguments. Returns the result if no errors."""
 
@@ -71,9 +71,11 @@ def run_calculator():
             return run_calculator()
 
         else:
+            print(result)
             return result
 
-def readfile():
+
+def readfile() -> None:
     """Asks user to input filename, tries to read file, if file does not exist, throws an error and recursively asks
     until it does exist. If file read, it prints out file contents."""
     try:
@@ -86,6 +88,33 @@ def readfile():
         for line in data:
             print(line)
 
+
+def option_decision() -> None:
+    # ask user to either view eqns or enter one
+    choice = input(" Do you want to view equations from txt file (type 0) or add a calculation? (type 1) ")
+
+    if choice == "1":
+        # run calculator and write output into eqn file
+        another_equation = True
+        while another_equation:
+            eqn = run_calculator()
+            cont = input("if you would like to add another equation, press any button, if you would like to exit the "
+                         "code, enter 'e': ")
+            if cont == "e":
+                another_equation = False
+
+            with open("equations.txt", "a") as eqn_file:
+                eqn_file.write(f"{eqn}\n")
+
+    elif choice == "0":
+        # run readfile eqn
+        readfile()
+
+    else:
+        print("This is not an option, please try again")
+        option_decision()
+
+
 # create dict holding each function under string keys
 operations_dict = {"multiply": [multiply, "x"],
                    "divide": [divide, "/"],
@@ -93,19 +122,4 @@ operations_dict = {"multiply": [multiply, "x"],
                    "subtract": [minus, "-"],
                    }
 
-# ask user to either view eqns or enter one
-choice = input(" Do you want to view equations from txt file (type 0) or add a calculation? (type 1) ")
-
-if choice == "1":
-    # run calculator and write output into eqn file
-    eqn = run_calculator()
-    with open("equations.txt", "a") as eqn_file:
-        eqn_file.write(f"{eqn}\n")
-
-elif choice == "0":
-    # run readfile eqn
-    readfile()
-
-else:
-    raise "That was not an option, please run code again"
-
+option_decision()
