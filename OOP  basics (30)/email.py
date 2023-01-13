@@ -6,11 +6,11 @@ class Email:
         self.has_been_read = False
         self.is_spam = False
 
-    def mark_as_read(self):
+    def mark_as_read(self) -> None:
         """This function changes has_been_read to True"""
         self.has_been_read = True
 
-    def mark_as_spam(self):
+    def mark_as_spam(self) -> None:
         """This function changes is_spam to True"""
         self.is_spam = True
 
