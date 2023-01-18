@@ -1,7 +1,4 @@
-import pandas
-
-
-#========The beginning of the class==========
+# ========The beginning of the class==========
 class Shoe:
     """Creates show object with various stock data
 
@@ -16,6 +13,7 @@ class Shoe:
         get_cost - returns cost of shoe
         get_quantity - returns quantity of shoes
         __str__ - returns string of class"""
+
     def __init__(self, country, code, product, cost, quantity):
         self.country = country
         self.code = code
@@ -38,20 +36,22 @@ class Shoe:
         return output
 
 
-#=============Shoe list===========
+
+# =============Shoe list===========
 '''
 The list will be used to store a list of objects of shoes.
 '''
 shoe_list = []
-#==========Functions outside the class==============
+
+
+# ==========Functions outside the class==============
 def read_shoes_data():
     """This function will open the file inventory.csv in a pd dataframe
     and read the data from this file, then create a shoes object with this data
     and append this object into the shoes list."""
-    shoes_df = pandas.read_csv("inventory.csv")
-    shoes_dict = shoes_df.to_dict()
-    print(shoes_dict)
-
+    # shoes_df = pandas.read_csv("inventory.csv")
+    # shoes_dict = shoes_df.to_dict()
+    # print(shoes_dict)
 
 
 def capture_shoes():
@@ -62,6 +62,7 @@ def capture_shoes():
     and append this object inside the shoe list.
     '''
 
+
 def view_all():
     pass
     '''
@@ -70,6 +71,7 @@ def view_all():
     function. Optional: you can organise your data in a table format
     by using Python’s tabulate module.
     '''
+
 
 def re_stock():
     pass
@@ -80,12 +82,14 @@ def re_stock():
     This quantity should be updated on the file for this shoe.
     '''
 
+
 def seach_shoe():
     pass
     '''
      This function will search for a shoe from the list
      using the shoe code and return this object so that it will be printed.
     '''
+
 
 def value_per_item():
     pass
@@ -95,6 +99,7 @@ def value_per_item():
     Print this information on the console for all the shoes.
     '''
 
+
 def highest_qty():
     pass
     '''
@@ -102,10 +107,11 @@ def highest_qty():
     print this shoe as being for sale.
     '''
 
-#==========Main Menu=============
+
+# ==========Main Menu=============
 '''
 Create a menu that executes each function above.
 This menu should be inside the while loop. Be creative!
 '''
+print("hi")
 
-read_shoes_data()

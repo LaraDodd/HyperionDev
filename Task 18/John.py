@@ -1,3 +1,4 @@
+from turtle import Turtle
 # initial variables
 john_entered = False  # initialise bool
 names = []  # initialise names list
@@ -13,3 +14,6 @@ while not john_entered:
     names.append(user_input)  # append name to names list
 
 print(names)
+
+tim = Turtle()
+tim.penup()
